@@ -1,0 +1,12 @@
+
+.project
+
+.classpath
+
+*.prefs
+
+META-INF/maven/com.googlecode.json-simple/json-simple/pom.xml
+
+META-INF/maven/com.googlecode.json-simple/json-simple/pom.properties
+
+META-INF/MANIFEST.MF

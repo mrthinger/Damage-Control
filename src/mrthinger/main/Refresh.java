@@ -71,10 +71,10 @@ public class Refresh implements Runnable {
 			//check to see if all 3 matches were played within 6 hours or less
 			boolean quickPlayAll;
 			if ((long)(match1.startTime-match3.startTime) <= (long)(3600 * 6)){
-				System.out.println("most recent 3 matches were played within 6 hours or less");
+				System.out.println("most recent 3 matches were played within 6 hours or less of eachother");
 				quickPlayAll = true;
 			}else{
-				System.out.println("most recent 3 matches were NOT played within 6 hours or less");
+				System.out.println("most recent 3 matches were NOT played within 6 hours or less of eachother");
 				quickPlayAll = false;
 			}
 			
@@ -91,11 +91,14 @@ public class Refresh implements Runnable {
 			//3 fast loss streak
 			if (match1.won == false && match2.won == false && match3.won == false && quickPlayAll == true) {
 				//how long after the most recent match time you'll be able to play again
-				int hoursOfPunishment = 10;
+				int hoursOfPunishment = 8;
 				long resumeTime = (long)(match1.startTime) + (long)(3600 * hoursOfPunishment);
 				Data.setData(5, Long.toString(resumeTime));
 				updateTimeRemaining();
-				stopPlaying();
+				//checks if their is a negative amount of time remaining before displaying message
+				if(!timeRemaining.startsWith("-")){
+					stopPlaying();
+				}
 			//2 fast loss streak
 			} else if (match1.won == false && match2.won == false && match3.won == true && quickPlayTwo == true) {
 				takeBreak();
