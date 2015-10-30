@@ -46,7 +46,6 @@ public class Refresh implements Runnable {
 				Util.downloadFile(Reference.matchHistoryLink + accountID, Reference.matchHistoryFile));
 		Util.delete(new File(Reference.matchHistoryFile));
 		
-		
 		if(Data.getMatchID(1) != matchList.latestMatchIDs[0]
 			&& Data.getMatchID(2) != matchList.latestMatchIDs[1] 
 			&& Data.getMatchID(3) != matchList.latestMatchIDs[2]){
@@ -120,6 +119,9 @@ public class Refresh implements Runnable {
 			updateTimeRemaining();
 			
 			//update systemtray
+			if(!SystemTrayGUI.popup.getItem(SystemTrayGUI.popup.getItemCount()-1).equals(SystemTrayGUI.timeRemainingMenuItem)){
+				SystemTrayGUI.popup.add(SystemTrayGUI.timeRemainingMenuItem);
+			}
 			SystemTrayGUI.timeRemainingMenuItem.setLabel("Time Remaining: " + timeRemaining);
 			
 
@@ -134,14 +136,11 @@ public class Refresh implements Runnable {
 		Data.setData(2,	Integer.toString(matchList.latestMatchIDs[1]));
 		Data.setData(3, Integer.toString(matchList.latestMatchIDs[2]));
 
-
-		
 	}
 	
 
 	private void stopPlaying(){
 		updateTimeRemaining();
-		SystemTrayGUI.popup.add(SystemTrayGUI.timeRemainingMenuItem);
 		dispStop = true;
 		
 		System.out.println("You need to STOP playing for the day");
@@ -192,15 +191,17 @@ public class Refresh implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
-	//TODO: kill dota on windows
 	private void killDOTAWindows() {
-		
+		try {
+			Runtime.getRuntime().exec("taskkill /F /IM dota2.exe");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void updateTimeRemaining(){

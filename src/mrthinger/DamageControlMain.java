@@ -29,8 +29,6 @@ import mrthinger.main.Refresh;
 
 public class DamageControlMain extends Application {
 
-	public static String mrthingerAccountID = "77781753";
-
 	@Override
 	public void start(Stage primaryStage) {
 		//Stops program from exiting when all windows are closed
