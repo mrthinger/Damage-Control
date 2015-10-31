@@ -19,6 +19,7 @@ public class MatchParse {
 	public int playerSlot;
 	public int team;
 	public long startTime;
+	public long duration;
 
 	public boolean radiantWin;
 	public boolean won;
@@ -33,9 +34,9 @@ public class MatchParse {
 		radiantWin = results.get("radiant_win").toString().equals("true");
 		
 		startTime = Long.parseLong(results.get("start_time").toString());
-	
-		JSONArray players = (JSONArray) results.get("players");
+		duration = Long.parseLong(results.get("duration").toString());
 		
+		JSONArray players = (JSONArray) results.get("players");
 		
 		for(int i = 0; i < players.size(); i++){
 			

@@ -89,9 +89,9 @@ public class Refresh implements Runnable {
 
 			//3 fast loss streak
 			if (match1.won == false && match2.won == false && match3.won == false && quickPlayAll == true) {
-				//how long after the most recent match time you'll be able to play again
+				//how long AFTER the most recent match time you'll be able to play again
 				int hoursOfPunishment = 8;
-				long resumeTime = (long)(match1.startTime) + (long)(3600 * hoursOfPunishment);
+				long resumeTime = (long)(match1.startTime+match1.duration) + (long)(3600 * hoursOfPunishment);
 				Data.setData(5, Long.toString(resumeTime));
 				updateTimeRemaining();
 				//checks if their is a negative amount of time remaining before displaying message
