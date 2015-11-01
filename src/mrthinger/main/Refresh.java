@@ -51,7 +51,7 @@ public class Refresh implements Runnable {
 		Util.delete(new File(Reference.matchHistoryFile));
 
 		//If id is valid
-		if(validID){
+		if(validID && Data.getAccID() != 0){
 
 			//If their are new matches
 			if(Data.getMatchID(1) != matchList.latestMatchIDs[0]
@@ -129,6 +129,7 @@ public class Refresh implements Runnable {
 			displayAccIDInvalidMSG();
 			invalidMSGDisplayed=true;
 			}
+			Data.setData(4, "0");
 		}
 
 		//What to do if you're still being punished
