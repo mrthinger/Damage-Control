@@ -24,18 +24,21 @@ public class MatchHistoryParse {
 
 		JSONObject results = (JSONObject) mHO.get("result");
 		JSONArray matches = (JSONArray) results.get("matches");
-
-		JSONObject match1 = (JSONObject) matches.get(0);
-		JSONObject match2 = (JSONObject) matches.get(1);
-		JSONObject match3 = (JSONObject) matches.get(2);
-
-		int match1ID = Integer.parseInt(match1.get("match_id").toString());	
-		int match2ID = Integer.parseInt(match2.get("match_id").toString());
-		int match3ID = Integer.parseInt(match3.get("match_id").toString());
-
-		latestMatchIDs = new int[] { match1ID, match2ID, match3ID };
 		
+		if(matches != null){
+			JSONObject match1 = (JSONObject) matches.get(0);
+			JSONObject match2 = (JSONObject) matches.get(1);
+			JSONObject match3 = (JSONObject) matches.get(2);
 
+			int match1ID = Integer.parseInt(match1.get("match_id").toString());	
+			int match2ID = Integer.parseInt(match2.get("match_id").toString());
+			int match3ID = Integer.parseInt(match3.get("match_id").toString());
+
+			latestMatchIDs = new int[] { match1ID, match2ID, match3ID };
+		}else{
+			System.out.println("Invalid account ID");
+			Refresh.validID = false;
+		}
 	}
 
 	private static void readMatchJSON() {

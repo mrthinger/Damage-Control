@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -82,7 +83,7 @@ public class Data {
 			int currentMatch2ID = getMatchID(2);
 			int currentMatch3ID = getMatchID(3);
 			long unixTime = getResumeTime();
-			int accID = getAccID();
+			long accID = getAccID();
 			
 			
 			JSONObject jsonObject = new JSONObject();
@@ -204,8 +205,8 @@ public class Data {
 		return time;
 	}
 	
-	public static int getAccID(){
-		int id = 0;
+	public static long getAccID(){
+		long id = 0;
 		
 		try {
 			JSONParser parser = new JSONParser();
@@ -217,13 +218,15 @@ public class Data {
 		JSONObject saveFileJSON = (JSONObject) obj;
 		file.close();
 		
-		id = Integer.parseInt(saveFileJSON.get("accID").toString());
-		
-		} catch (FileNotFoundException e) {
+		id = Long.parseLong(saveFileJSON.get("accID").toString());
+		}catch(NumberFormatException e){
+			Refresh.validID=false;
+			System.out.println("ID had an invalid character");
+		}catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}catch (IOException e) {
 			e.printStackTrace();
-		} catch (ParseException e) {
+		}catch (ParseException e) {
 			e.printStackTrace();
 		}
 		

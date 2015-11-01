@@ -81,7 +81,7 @@ public class SystemTrayGUI {
          
          
          // construct a TrayIcon
-         trayIcon = new TrayIcon(image, "Title", popup);
+         trayIcon = new TrayIcon(image, "Damage Control - Dota 2", popup);
          // set the TrayIcon properties
          trayIcon.addActionListener(showListener);
          // ...

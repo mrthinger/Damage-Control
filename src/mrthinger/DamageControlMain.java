@@ -40,6 +40,14 @@ public class DamageControlMain extends Application {
 			refresh.setDaemon(true);
 			refresh.start();
 			
+			//Invalid ID display
+			Text msgInvalidID = new Text();
+			msgInvalidID.setText("Invalid Account ID.");
+			StackPane paneInvalidID = new StackPane();
+			
+			paneInvalidID.getChildren().add(msgInvalidID);
+			Scene invalidIDScene = new Scene(paneInvalidID, 500, 100);
+			
 			//Warning display
 			Text msgWarning = new Text();
 			msgWarning.setText("Consider taking a short break and getting a snack.");
@@ -97,6 +105,17 @@ public class DamageControlMain extends Application {
 					            }
 					          });          
 					        }
+					if(Refresh.dispValidID == true){
+						
+						Platform.runLater(new Runnable() {
+					            @Override
+					            public void run() {
+					            	primaryStage.setScene(invalidIDScene);
+					            	primaryStage.show();
+					            	primaryStage.toFront();
+					            }
+					          });          
+					        }
 					
 						
 					Thread.sleep(1000);
@@ -118,7 +137,7 @@ public class DamageControlMain extends Application {
 		  if(Data.getAccID() == 0){
 			  accIDTextField.setText("dotabuff account ID"); 
 		  }else{
-			  accIDTextField.setText(Integer.toString(Data.getAccID())); 
+			  accIDTextField.setText(Long.toString(Data.getAccID())); 
 		  }
 		 
 		  accIDTextField.setAlignment(Pos.CENTER);
@@ -170,9 +189,7 @@ public class DamageControlMain extends Application {
 	        if(Data.getAccID() == 0){
 		        primaryStage.show();
 	        }else{
-        		Refresh.accountID = accIDTextField.getText();
-        		Refresh.running = true;
-                System.out.println(accIDTextField.getText());
+	        	onEnter(primaryStage,accIDTextField);
 	        }
 
 	        SystemTrayGUI.createTrayIcon(primaryStage, accIDScene);
@@ -180,6 +197,11 @@ public class DamageControlMain extends Application {
 	}
 	
 	private void onEnter(Stage primaryStage, TextField accIDTextField) {
+		//assume ID is correct until proven otherwise
+		Refresh.validID=true;
+		//reset if this message has been sent on an account by account basis
+		Refresh.invalidMSGDisplayed=false;
+		
 		Refresh.accountID = accIDTextField.getText();
 		Refresh.running = true;
 		
