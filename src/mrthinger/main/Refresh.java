@@ -45,6 +45,7 @@ public class Refresh implements Runnable {
 
 	private void tick() {
 
+		//Download match history and parse it.
 		MatchHistoryParse matchList = new MatchHistoryParse(
 				Util.downloadFile(Reference.matchHistoryLink + accountID, Reference.matchHistoryFile));
 		Util.delete(new File(Reference.matchHistoryFile));
@@ -52,6 +53,7 @@ public class Refresh implements Runnable {
 		//If id is valid
 		if(validID){
 
+			//If their are new matches
 			if(Data.getMatchID(1) != matchList.latestMatchIDs[0]
 				&& Data.getMatchID(2) != matchList.latestMatchIDs[1] 
 				&& Data.getMatchID(3) != matchList.latestMatchIDs[2]){
@@ -61,6 +63,7 @@ public class Refresh implements Runnable {
 				//reset remaining time
 				Data.setData(5, "0");
 
+				//parse matches
 				MatchParse match1 = new MatchParse(Util.downloadFile(
 						Reference.matchLink + matchList.latestMatchIDs[0], Reference.matchFile));
 				Util.delete(new File(Reference.matchFile));

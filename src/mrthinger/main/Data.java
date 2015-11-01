@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -222,6 +221,7 @@ public class Data {
 		}catch(NumberFormatException e){
 			Refresh.validID=false;
 			System.out.println("ID had an invalid character");
+			return 0;
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException e) {

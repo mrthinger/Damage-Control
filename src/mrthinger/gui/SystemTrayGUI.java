@@ -42,7 +42,6 @@ public class SystemTrayGUI {
                  hide(stage);
              }
          });
-         // create a action listener to listen for default action executed on the tray icon
          final ActionListener closeListener = new ActionListener() {
              @Override
              public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -75,17 +74,11 @@ public class SystemTrayGUI {
          popup.add(closeItem);
          
         timeRemainingMenuItem = new MenuItem();
-         
-         
-       
-         
-         
-         // construct a TrayIcon
-         trayIcon = new TrayIcon(image, "Damage Control - Dota 2", popup);
-         // set the TrayIcon properties
-         trayIcon.addActionListener(showListener);
-         // ...
-         // add the tray image
+        
+        trayIcon = new TrayIcon(image, "Damage Control - Dota 2", popup);
+
+        trayIcon.addActionListener(showListener);
+
          try {
              tray.add(trayIcon);
          } catch (AWTException e) {
