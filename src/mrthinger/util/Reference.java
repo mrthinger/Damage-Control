@@ -9,9 +9,4 @@ public class Reference {
 	public static final String matchFile = Util.getDCDir() + "match.txt";
 	public static final String saveDataFile = Util.getDCDir() + "data.txt";
 	
-	
-
-	public static final String mrthingerAccountID = "77781753";
-	public static final String threeLossAccID = "124801257";
-	
 }

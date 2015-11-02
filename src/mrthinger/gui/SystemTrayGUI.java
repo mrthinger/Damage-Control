@@ -1,6 +1,7 @@
 package mrthinger.gui;
 
 import java.awt.AWTException;
+import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -22,14 +23,16 @@ public class SystemTrayGUI {
 	public volatile static PopupMenu popup;
 	public volatile static MenuItem timeRemainingMenuItem;
 	
-	private static TrayIcon trayIcon;
+	public volatile static TrayIcon trayIcon;
+	public volatile static Image goImage;
+	public volatile static Image stopImage;
 
 	public static void createTrayIcon(final Stage stage, Scene changeIDScene) {
      if (SystemTray.isSupported()) {
          SystemTray tray = SystemTray.getSystemTray();
-         java.awt.Image image = null;
          try {
-				image = ImageIO.read(DamageControlMain.class.getResourceAsStream("assets/DamageControlICON.png"));
+				goImage = ImageIO.read(DamageControlMain.class.getResourceAsStream("assets/DamageControlICON_go.png"));
+				stopImage = ImageIO.read(DamageControlMain.class.getResource("assets/DamageControlICON_stop.png"));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -75,7 +78,7 @@ public class SystemTrayGUI {
          
         timeRemainingMenuItem = new MenuItem();
         
-        trayIcon = new TrayIcon(image, "Damage Control - Dota 2", popup);
+        trayIcon = new TrayIcon(goImage, "Damage Control - Dota 2", popup);
 
         trayIcon.addActionListener(showListener);
 

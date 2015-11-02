@@ -27,7 +27,7 @@ public class GUI {
 		//If account id is 0 its the first time the program has been opened or id is invalid.
 		TextField accIDTextField = new TextField();
 		if(Data.getAccID() == 0){
-			accIDTextField.setText("dotabuff account ID"); 
+			accIDTextField.setText("Enter Account ID"); 
 		}else{
 			accIDTextField.setText(Long.toString(Data.getAccID())); 
 		}
@@ -37,7 +37,6 @@ public class GUI {
 
 		Button btn = new Button();
 		btn.setText("Enter");
-		btn.setAlignment(Pos.BOTTOM_RIGHT);
 
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -89,7 +88,7 @@ public class GUI {
 
 					@Override
 					public void run() {
-						accIDTextField.setText("dotabuff account ID"); 
+						accIDTextField.setText("Enter Account ID"); 
 						stage.setScene(accIDScene);
 						stage.show();
 						stage.toFront();

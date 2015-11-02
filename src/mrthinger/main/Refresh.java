@@ -45,7 +45,7 @@ public class Refresh implements Runnable {
 
 	private void tick() {
 
-		//Download match history and parse it.
+		//Download match history and parse it. ID validity gets checked here.
 		MatchHistoryParse matchList = new MatchHistoryParse(
 				Util.downloadFile(Reference.matchHistoryLink + accountID, Reference.matchHistoryFile));
 		Util.delete(new File(Reference.matchHistoryFile));
@@ -148,6 +148,7 @@ public class Refresh implements Runnable {
 				SystemTrayGUI.popup.add(SystemTrayGUI.timeRemainingMenuItem);
 			}
 			SystemTrayGUI.timeRemainingMenuItem.setLabel("Time Remaining: " + timeRemaining);
+			SystemTrayGUI.trayIcon.setImage(SystemTrayGUI.stopImage);
 
 
 
@@ -155,6 +156,7 @@ public class Refresh implements Runnable {
 		}else{
 			timeRemaining = "0";
 			SystemTrayGUI.popup.remove(SystemTrayGUI.timeRemainingMenuItem);
+			SystemTrayGUI.trayIcon.setImage(SystemTrayGUI.goImage);
 		}
 
 	}

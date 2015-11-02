@@ -48,8 +48,9 @@ public class DamageControlMain extends Application {
 		Refresh.validID=true;
 		//reset if this message has been sent on an account by account basis
 		Refresh.invalidMSGDisplayed=false;
-
+		//Sets account ID
 		Refresh.accountID = accID;
+		//starts thread
 		Refresh.running = true;
 		if(!refresh.isAlive()){
 			refresh.start();
