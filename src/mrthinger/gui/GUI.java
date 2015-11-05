@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import mrthinger.DamageControlMain;
 import mrthinger.main.Data;
 import mrthinger.main.Refresh;
+import mrthinger.util.Reference;
 
 public class GUI {
 
@@ -181,7 +182,7 @@ public class GUI {
 		update.setDaemon(true);
 		update.start();
 
-		stage.setTitle("Damage Control - DotA 2");
+		stage.setTitle("Damage Control v." + Reference.version + " - Dota 2");
 
 		//creates system tray
 		SystemTrayGUI.createTrayIcon(stage, accIDScene);

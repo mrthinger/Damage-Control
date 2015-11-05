@@ -6,6 +6,7 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
@@ -17,23 +18,29 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import mrthinger.DamageControlMain;
+import mrthinger.main.SelfUpdate;
+import mrthinger.util.Reference;
 
 public class SystemTrayGUI {
 
-	public volatile static PopupMenu popup;
-	public volatile static MenuItem timeRemainingMenuItem;
-	
-	public volatile static TrayIcon trayIcon;
-	public volatile static Image goImage;
-	public volatile static Image stopImage;
-
+	  public static volatile PopupMenu popup;
+	  public static volatile MenuItem timeRemainingMenuItem;
+	  public static volatile MenuItem updateFoundMenuItem;
+	  public static volatile TrayIcon trayIcon;
+	  public static volatile Image noneImage;
+	  public static volatile Image goImage;
+	  public static volatile Image pauseImage;
+	  public static volatile Image stopImage;
+	  
 	public static void createTrayIcon(final Stage stage, Scene changeIDScene) {
      if (SystemTray.isSupported()) {
          SystemTray tray = SystemTray.getSystemTray();
          try {
-				goImage = ImageIO.read(DamageControlMain.class.getResourceAsStream("assets/DamageControlICON_go.png"));
-				stopImage = ImageIO.read(DamageControlMain.class.getResource("assets/DamageControlICON_stop.png"));
-			} catch (IOException e1) {
+        	   noneImage = ImageIO.read(DamageControlMain.class.getResourceAsStream("assets/DamageControlICON_none.png"));
+               goImage = ImageIO.read(DamageControlMain.class.getResourceAsStream("assets/DamageControlICON_go.png"));
+               pauseImage = ImageIO.read(DamageControlMain.class.getResourceAsStream("assets/DamageControlICON_pause.png"));
+               stopImage = ImageIO.read(DamageControlMain.class.getResourceAsStream("assets/DamageControlICON_stop.png"));
+             } catch (IOException e1) {
 				e1.printStackTrace();
 			}
 
@@ -47,14 +54,14 @@ public class SystemTrayGUI {
          });
          final ActionListener closeListener = new ActionListener() {
              @Override
-             public void actionPerformed(java.awt.event.ActionEvent e) {
+             public void actionPerformed(ActionEvent e) {
                  System.exit(0);
              }
          };
 
          ActionListener showListener = new ActionListener() {
              @Override
-             public void actionPerformed(java.awt.event.ActionEvent e) {
+             public void actionPerformed(ActionEvent e) {
                  Platform.runLater(new Runnable() {
                      @Override
                      public void run() {
@@ -65,6 +72,19 @@ public class SystemTrayGUI {
                  });
              }
          };
+         
+         ActionListener updateListener = new ActionListener()
+         {
+           public void actionPerformed(ActionEvent e) {
+             Platform.runLater(new Runnable()
+             {
+               public void run() {
+                 SelfUpdate.update(SelfUpdate.updater.latestProgramLink);
+               }
+             });
+           }
+         };
+         
          // create a popup menu
          popup = new PopupMenu();
 
@@ -78,7 +98,11 @@ public class SystemTrayGUI {
          
         timeRemainingMenuItem = new MenuItem();
         
-        trayIcon = new TrayIcon(goImage, "Damage Control - Dota 2", popup);
+        updateFoundMenuItem = new MenuItem("Update Damage Control");
+        updateFoundMenuItem.addActionListener(updateListener);
+
+        
+        trayIcon = new TrayIcon(noneImage, "Damage Control v." + Reference.version + " - Dota 2", popup);
 
         trayIcon.addActionListener(showListener);
 

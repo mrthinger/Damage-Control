@@ -29,9 +29,7 @@ public class Refresh implements Runnable {
 
 			if(running == true && accountID != null){
 				tick();
-
 			}
-
 
 			try {
 				Thread.sleep(15000);
@@ -130,6 +128,9 @@ public class Refresh implements Runnable {
 			invalidMSGDisplayed=true;
 			}
 			Data.setData(4, "0");
+			Data.setData(5, "0");
+			SystemTrayGUI.trayIcon.setImage(SystemTrayGUI.pauseImage);
+			   
 		}
 
 		//What to do if you're still being punished
@@ -144,19 +145,32 @@ public class Refresh implements Runnable {
 			updateTimeRemaining();
 
 			//update systemtray
-			if(!SystemTrayGUI.popup.getItem(SystemTrayGUI.popup.getItemCount()-1).equals(SystemTrayGUI.timeRemainingMenuItem)){
-				SystemTrayGUI.popup.add(SystemTrayGUI.timeRemainingMenuItem);
-			}
-			SystemTrayGUI.timeRemainingMenuItem.setLabel("Time Remaining: " + timeRemaining);
-			SystemTrayGUI.trayIcon.setImage(SystemTrayGUI.stopImage);
+			  boolean tRemainingAdded = false;
+		      for (int i = 0; i < SystemTrayGUI.popup.getItemCount(); i++)
+		      {
+		        if (SystemTrayGUI.popup.getItem(i).equals(SystemTrayGUI.timeRemainingMenuItem)) {
+		          tRemainingAdded = true;
+		        }
 
+		      }
 
+		      if (!tRemainingAdded) {
+		        SystemTrayGUI.popup.add(SystemTrayGUI.timeRemainingMenuItem);
+		      }
+
+		      SystemTrayGUI.timeRemainingMenuItem.setLabel("Time Remaining: " + timeRemaining);
+		      SystemTrayGUI.trayIcon.setImage(SystemTrayGUI.stopImage);
+		    
 
 
 		}else{
 			timeRemaining = "0";
 			SystemTrayGUI.popup.remove(SystemTrayGUI.timeRemainingMenuItem);
+			
+			if(validID && Data.getAccID() != 0){
 			SystemTrayGUI.trayIcon.setImage(SystemTrayGUI.goImage);
+			}
+			
 		}
 
 	}
