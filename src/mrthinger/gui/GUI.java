@@ -132,12 +132,41 @@ public class GUI {
 		paneStop.add(timeRemaining,0,1);
 		Scene stopScene = new Scene(paneStop, 500, 100);
 
+		//Dota closed display
+		Text msgDClosed = new Text();
+	    msgDClosed.setText("Dota closed.");
+
+	    Text dClosedTimeRemaining = new Text();
+
+	    GridPane paneDClosed = new GridPane();
+	    paneDClosed.setAlignment(Pos.CENTER);
+	    paneDClosed.setHgap(10);
+	    paneDClosed.setVgap(10);
+	    paneDClosed.setPadding(new Insets(10, 10, 10, 10));
+
+	    paneDClosed.add(msgDClosed, 0, 0);
+	    paneDClosed.add(dClosedTimeRemaining, 0, 1);
+
+	    Scene dClosedScene = new Scene(paneDClosed, 500, 100);
+		
 		//notifications from refresh thread
 		Task<Void> updateDisp = new Task<Void>(){
 
 			@Override
 			protected Void call() throws Exception {
 				while(true){
+					   if (Refresh.dispDotaClosed)
+				          {
+				            Platform.runLater(new Runnable()
+				            {
+				              public void run() {
+				                dClosedTimeRemaining.setText("Time remaining: " + Refresh.timeRemaining);
+				                stage.setScene(dClosedScene);
+				                stage.show();
+				                stage.toFront();
+				              }
+				            });
+				          }
 					if(Refresh.dispWarning == true){
 
 						Platform.runLater(new Runnable() {

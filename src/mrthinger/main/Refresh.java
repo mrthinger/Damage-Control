@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 
-import javafx.scene.Scene;
 import mrthinger.gui.SystemTrayGUI;
 import mrthinger.util.Reference;
 import mrthinger.util.Util;
@@ -15,13 +14,16 @@ public class Refresh implements Runnable {
 
 	public volatile static boolean running = false;
 	public volatile static String accountID = null;
+	public volatile static String timeRemaining = "0";
+	
 	public volatile static boolean dispWarning = false;
 	public volatile static boolean dispStop = false;
-	public volatile static Scene dispScene = null;
-	public volatile static String timeRemaining = "0";
+	
 	public volatile static boolean validID = true;
 	public volatile static boolean dispValidID = false;
 	public volatile static boolean invalidMSGDisplayed = false;
+	
+	public static volatile boolean dispDotaClosed = false;
 
 	@Override
 	public void run() {
@@ -219,6 +221,20 @@ public class Refresh implements Runnable {
 
 		dispWarning=false;
 	}
+	
+	  private void displayDotaClosed()
+	  {
+	    updateTimeRemaining();
+	    dispDotaClosed = true;
+	    try
+	    {
+	      Thread.sleep(1001L);
+	    } catch (InterruptedException e) {
+	      e.printStackTrace();
+	    }
+
+	    dispDotaClosed = false;
+	  }
 
 
 	private void killDOTAMac() {
@@ -234,6 +250,7 @@ public class Refresh implements Runnable {
 			if(PID != null){
 				Runtime.getRuntime().exec("kill -9 " + PID);
 				System.out.println("Dota killed");
+				displayDotaClosed();
 			}else{
 				System.out.println("Dota is not being run");
 			}
@@ -249,8 +266,20 @@ public class Refresh implements Runnable {
 
 	private void killDOTAWindows() {
 		try {
-			Runtime.getRuntime().exec("taskkill /F /IM dota2.exe");
+			Process dotaRunning = Runtime.getRuntime().exec("tasklist /FI \"IMAGENAME eq dota2.exe\"");
+			dotaRunning.waitFor();
+			BufferedReader br = new BufferedReader(new InputStreamReader(dotaRunning.getInputStream()));
+			String output = br.readLine();
+			if(!output.contains("INFO:")){
+				Runtime.getRuntime().exec("taskkill /F /IM dota2.exe");
+				System.out.println("Dota killed");
+				displayDotaClosed();
+			}else{
+				System.out.println("Dota is not being run");
+			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
