@@ -9,5 +9,6 @@ https://code.google.com/p/json-simple/
 
 Reddit Post:
 https://www.reddit.com/r/DotA2/comments/3rph21/prevent_huge_loss_streaks_introducing_damage/
+
 Video Demo:
 https://www.youtube.com/watch?v=X1w7lmzN6YA
